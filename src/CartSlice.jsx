@@ -10,7 +10,7 @@ export const CartSlice = createSlice({
       const { name, image, cost } = action.payload;
       const existingItem = state.items.find((item) => item.name === name);
       if (existingItem) {
-        existingItem.quatity++;
+        existingItem.quantity++;
       } else {
         state.items.push({ name, image, cost, quantity: 1 });
       }
@@ -20,7 +20,7 @@ export const CartSlice = createSlice({
     },
     updateQuantity: (state, action) => {
       const { name, quantity } = action.payload;
-      const itemToUpdate = state.items.find((item) => item.nae === name);
+      const itemToUpdate = state.items.find((item) => item.name === name);
       if (itemToUpdate) {
         itemToUpdate.quantity = quantity;
       }
