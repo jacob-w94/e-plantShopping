@@ -9,6 +9,7 @@ function ProductList() {
   const [showCart, setShowCart] = useState(false);
   const [showPlants, setShowPlants] = useState(false);
   const [addedToCart, setAddedToCart] = useState({});
+  const [totalQuantity, setTotalQuantity] = useState(0);
 
   const plantsArray = [
     {
@@ -286,8 +287,7 @@ function ProductList() {
     setShowCart(false);
   };
 
-  const handleContinueShopping = (e) => {
-    e.preventDefault();
+  const handleContinueShopping = () => {
     setShowCart(false);
   };
 
@@ -297,6 +297,7 @@ function ProductList() {
       ...prevState,
       [product.name]: true,
     }));
+    setTotalQuantity((prevQuantity) => prevQuantity + 1); // Increment total quantity
   };
 
   return (
@@ -325,6 +326,8 @@ function ProductList() {
           <div>
             <a href="#" onClick={handleCartClick} style={styleA}>
               <h1 className="cart">
+                {totalQuantity > 0 && <span>{totalQuantity}</span>}{" "}
+                {/* Show total quantity */}
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 256 256"
@@ -387,7 +390,10 @@ function ProductList() {
           ))}
         </div>
       ) : (
-        <CartItem onContinueShopping={handleContinueShopping} />
+        <CartItem
+          onContinueShopping={handleContinueShopping}
+          updateTotalQuantity={setTotalQuantity}
+        />
       )}
     </div>
   );
