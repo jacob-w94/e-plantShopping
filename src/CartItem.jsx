@@ -1,19 +1,11 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { removeItem, updateQuantity } from "./CartSlice";
 import "./CartItem.css";
 
-const CartItem = ({ onContinueShopping, updateTotalQuantity }) => {
+const CartItem = ({ onContinueShopping }) => {
   const cart = useSelector((state) => state.cart.items);
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    const totalQuantity = cart.reduce(
-      (total, item) => total + item.quantity,
-      0
-    );
-    updateTotalQuantity(totalQuantity); // Update total quantity in ProductList
-  }, [cart, updateTotalQuantity]);
 
   const calculateTotalAmount = () => {
     return cart
@@ -38,7 +30,7 @@ const CartItem = ({ onContinueShopping, updateTotalQuantity }) => {
         updateQuantity({ name: item.name, quantity: item.quantity - 1 })
       );
     } else {
-      handleRemove(item); // If quantity is 1, remove item instead
+      handleRemove(item); // Remove if quantity reaches 1
     }
   };
 
@@ -46,17 +38,8 @@ const CartItem = ({ onContinueShopping, updateTotalQuantity }) => {
     dispatch(removeItem(item.name));
   };
 
-  const handleCheckoutShopping = (e) => {
-    alert("Functionality to be added for future reference");
-  };
-
-  // Calculate total cost based on quantity for an item
   const calculateTotalCost = (item) => {
     return (item.quantity * parseFloat(item.cost.replace("$", ""))).toFixed(2);
-  };
-
-  const calculateTotalQuantity = () => {
-    return cart.reduce((total, item) => total + item.quantity, 0);
   };
 
   return (
@@ -101,10 +84,6 @@ const CartItem = ({ onContinueShopping, updateTotalQuantity }) => {
           </div>
         ))}
       </div>
-      <div
-        style={{ marginTop: "20px", color: "black" }}
-        className="total_cart_amount"
-      ></div>
       <div className="continue_shopping_btn">
         <button className="get-started-button" onClick={handleContinueShopping}>
           Continue Shopping
@@ -112,7 +91,9 @@ const CartItem = ({ onContinueShopping, updateTotalQuantity }) => {
         <br />
         <button
           className="get-started-button1"
-          onClick={handleCheckoutShopping}
+          onClick={() =>
+            alert("Functionality to be added for future reference")
+          }
         >
           Checkout
         </button>
